@@ -14,7 +14,9 @@ int yyerror(const char *message);
 
 %%
 
-"\n"                        { yylineno++; }
+"//"(.)*$                   { /*Ignorar comentarios de una sola linea*/ }
+"/*"(.|\n)*"*/"             { /*Ignorar comentarios de varias lineas*/ } //No funciona de momento
+\n                          { yylineno++; }
 [ \t""]+                    ;
 "sqrt"                      { return SQRT; }
 "prnt"                      { yylval.str = strdup(yytext); return PRNT; }

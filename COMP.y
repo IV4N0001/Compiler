@@ -34,8 +34,7 @@ struct Variable {
 %token <str> PRNT
 %token <str> STRING_CONSTANT
 %token <num_double> NUMBER
-%token NUM_TYPE
-%token STR_TYPE
+%token NUM_TYPE STR_TYPE
 %token SQRT
 %token STR_POW
 %token STR_SHIFT_LEFT
@@ -52,7 +51,7 @@ struct Variable {
 
 program:
     program instructions
-    | error '\n'    { yyerrok; }
+    | error '\n'    
     | /* empty */
     ;
 
@@ -62,7 +61,8 @@ instructions:
     ;
 
 declaration:
-    IDENTIFIER '=' expression ';'   { }
+    NUM_TYPE IDENTIFIER '=' expression ';'
+    | STR_TYPE IDENTIFIER '=' STRING_CONSTANT ';'
     ;
 
 expression:
@@ -86,11 +86,10 @@ factor:
     | '|' expression '|'     { $$ = (int)fabs($2); }
     | SQRT '(' expression ')' { $$ = sqrt($3); }
     | NUMBER STR_POW factor   { $$ = pow($1, $3); }
-    | IDENTIFIER             { }
     ;
 
 prnt_statement:
-    PRNT '(' prnt_argument ')' ';'  { printf("%s", $3); free($3); }
+    PRNT '(' prnt_argument ')' ';'  { printf("%s", $3); }
     ;
 
 prnt_argument:

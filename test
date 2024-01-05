@@ -1,4 +1,4 @@
-var = 0;
-prnt("Hola")
-prnt("\nmundo")
-prnt("\n\nmadafaker niga bitch")
+STR_TYPE var = "";
+prnt("Hola");
+//prnt("mundo");
+prnt("\nNo work");
