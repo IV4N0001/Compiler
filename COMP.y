@@ -5,6 +5,7 @@
 #include <string.h>
 
 extern int yylineno;
+extern char* yytext;
 char line[256];
 char* current_line;
 
@@ -17,30 +18,24 @@ int yyerror(const char *message) {
     return 0;
 }
 
-struct Variable {
-    char* name[20];
-    double* value;
-};
-
 %}
 
-
 %union {
-    double num_double;
-    char *str;
+    double num;
+    char* str;
 }
 
-%token <str> IDENTIFIER
-%token <str> PRNT
+%token IDENTIFIER
+%token PRNT
 %token <str> STRING_CONSTANT
-%token <num_double> NUMBER
+%token <num> NUMBER
 %token NUM_TYPE STR_TYPE
 %token SQRT
 %token STR_POW
 %token STR_SHIFT_LEFT
 %token OTHER
 
-%type <num_double> expression term factor
+%type <num> expression term factor
 %type <str> prnt_argument
 
 %error-verbose
@@ -62,9 +57,9 @@ instructions:
 
 declaration:
     NUM_TYPE IDENTIFIER '=' expression ';'
-    | STR_TYPE IDENTIFIER '=' STRING_CONSTANT ';'
+    | STR_TYPE IDENTIFIER '=' STRING_CONSTANT ';' //HORAS PERDIDAS EN ESTA VAINA: 12 O MAS . . . Y CONTANDO
     ;
-
+    
 expression:
     expression '+' term        { $$ = $1 + $3; }
     | expression '-' term      { $$ = $1 - $3; }
@@ -93,9 +88,10 @@ prnt_statement:
     ;
 
 prnt_argument:
-    STRING_CONSTANT   { $$ = $1; }
-    | STRING_CONSTANT ',' IDENTIFIER { $$ = $1; }  // También aquí asignamos solo la cadena
+    STRING_CONSTANT   //{ $$ = strdup($1); free($1); }
+    | STRING_CONSTANT ',' IDENTIFIER //{ $$ = strdup($1); free($1); }  // También aquí asignamos solo la cadena
     ;
+
 
 %%
 

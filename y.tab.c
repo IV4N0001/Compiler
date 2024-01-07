@@ -76,6 +76,7 @@
 #include <string.h>
 
 extern int yylineno;
+extern char* yytext;
 char line[256];
 char* current_line;
 
@@ -88,15 +89,10 @@ int yyerror(const char *message) {
     return 0;
 }
 
-struct Variable {
-    char* name[20];
-    double* value;
-};
-
 
 
 /* Line 189 of yacc.c  */
-#line 100 "y.tab.c"
+#line 96 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -157,15 +153,15 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 28 "COMP.y"
+#line 23 "COMP.y"
 
-    double num_double;
-    char *str;
+    double num;
+    char* str;
 
 
 
 /* Line 214 of yacc.c  */
-#line 169 "y.tab.c"
+#line 165 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -177,7 +173,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 181 "y.tab.c"
+#line 177 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -469,9 +465,9 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    53,    53,    54,    55,    59,    60,    64,    65,    69,
-      70,    71,    75,    76,    77,    78,    79,    83,    84,    85,
-      86,    87,    88,    92,    96,    97
+       0,    48,    48,    49,    50,    54,    55,    59,    60,    64,
+      65,    66,    70,    71,    72,    73,    74,    78,    79,    80,
+      81,    82,    83,    87,    91,    92
 };
 #endif
 
@@ -1402,112 +1398,98 @@ yyreduce:
         case 9:
 
 /* Line 1455 of yacc.c  */
-#line 69 "COMP.y"
-    { (yyval.num_double) = (yyvsp[(1) - (3)].num_double) + (yyvsp[(3) - (3)].num_double); }
+#line 64 "COMP.y"
+    { (yyval.num) = (yyvsp[(1) - (3)].num) + (yyvsp[(3) - (3)].num); }
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 70 "COMP.y"
-    { (yyval.num_double) = (yyvsp[(1) - (3)].num_double) - (yyvsp[(3) - (3)].num_double); }
+#line 65 "COMP.y"
+    { (yyval.num) = (yyvsp[(1) - (3)].num) - (yyvsp[(3) - (3)].num); }
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 75 "COMP.y"
-    { (yyval.num_double) = (yyvsp[(1) - (3)].num_double) * (yyvsp[(3) - (3)].num_double); }
+#line 70 "COMP.y"
+    { (yyval.num) = (yyvsp[(1) - (3)].num) * (yyvsp[(3) - (3)].num); }
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 76 "COMP.y"
-    { (yyval.num_double) = (yyvsp[(1) - (3)].num_double) / (yyvsp[(3) - (3)].num_double); }
+#line 71 "COMP.y"
+    { (yyval.num) = (yyvsp[(1) - (3)].num) / (yyvsp[(3) - (3)].num); }
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 77 "COMP.y"
-    { (yyval.num_double) = fmod((yyvsp[(1) - (3)].num_double), (yyvsp[(3) - (3)].num_double)); }
+#line 72 "COMP.y"
+    { (yyval.num) = fmod((yyvsp[(1) - (3)].num), (yyvsp[(3) - (3)].num)); }
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 78 "COMP.y"
-    { (yyval.num_double) = (int)(yyvsp[(1) - (3)].num_double) << (int)(yyvsp[(3) - (3)].num_double); }
+#line 73 "COMP.y"
+    { (yyval.num) = (int)(yyvsp[(1) - (3)].num) << (int)(yyvsp[(3) - (3)].num); }
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 83 "COMP.y"
-    { (yyval.num_double) = (yyvsp[(1) - (1)].num_double); }
+#line 78 "COMP.y"
+    { (yyval.num) = (yyvsp[(1) - (1)].num); }
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 84 "COMP.y"
-    { (yyval.num_double) = -(yyvsp[(2) - (2)].num_double); }
+#line 79 "COMP.y"
+    { (yyval.num) = -(yyvsp[(2) - (2)].num); }
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 85 "COMP.y"
-    { (yyval.num_double) = (yyvsp[(2) - (3)].num_double); }
+#line 80 "COMP.y"
+    { (yyval.num) = (yyvsp[(2) - (3)].num); }
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 86 "COMP.y"
-    { (yyval.num_double) = (int)fabs((yyvsp[(2) - (3)].num_double)); }
+#line 81 "COMP.y"
+    { (yyval.num) = (int)fabs((yyvsp[(2) - (3)].num)); }
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 87 "COMP.y"
-    { (yyval.num_double) = sqrt((yyvsp[(3) - (4)].num_double)); }
+#line 82 "COMP.y"
+    { (yyval.num) = sqrt((yyvsp[(3) - (4)].num)); }
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 88 "COMP.y"
-    { (yyval.num_double) = pow((yyvsp[(1) - (3)].num_double), (yyvsp[(3) - (3)].num_double)); }
+#line 83 "COMP.y"
+    { (yyval.num) = pow((yyvsp[(1) - (3)].num), (yyvsp[(3) - (3)].num)); }
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 92 "COMP.y"
+#line 87 "COMP.y"
     { printf("%s", (yyvsp[(3) - (5)].str)); }
     break;
 
-  case 24:
-
-/* Line 1455 of yacc.c  */
-#line 96 "COMP.y"
-    { (yyval.str) = (yyvsp[(1) - (1)].str); }
-    break;
-
-  case 25:
-
-/* Line 1455 of yacc.c  */
-#line 97 "COMP.y"
-    { (yyval.str) = (yyvsp[(1) - (3)].str); }
-    break;
-
 
 
 /* Line 1455 of yacc.c  */
-#line 1511 "y.tab.c"
+#line 1493 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1719,7 +1701,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 100 "COMP.y"
+#line 96 "COMP.y"
 
 
 int main(int argc, char* argv[]) {
@@ -1736,3 +1718,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+

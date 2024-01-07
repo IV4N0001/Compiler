@@ -1,4 +1,5 @@
-STR_TYPE var = "";
-prnt("Hola");
+STR_TYPE var = "SHIIIT";
+NUM_TYPE var2 = 9;
+prnt("Fakin");
 //prnt("mundo");
-prnt("\nNo work");
+prnt("\nTemu");

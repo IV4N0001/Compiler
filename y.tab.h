@@ -73,10 +73,10 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 28 "COMP.y"
+#line 23 "COMP.y"
 
-    double num_double;
-    char *str;
+    double num;
+    char* str;
 
 
 

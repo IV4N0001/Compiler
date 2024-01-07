@@ -4,6 +4,7 @@
 #include "y.tab.h"
 
 int yylineno = 1;
+//char *yytext;
 char* yytext_copy;
 
 int yylex();
@@ -14,23 +15,15 @@ int yyerror(const char *message);
 
 %%
 
-"//"(.)*$                   { /*Ignorar comentarios de una sola linea*/ }
-"/*"(.|\n)*"*/"             { /*Ignorar comentarios de varias lineas*/ } //No funciona de momento
+"//"(.)*$                   { /* Ignorar comentarios de una sola linea */ }
+"/*"(.|\n)*"*/"             { /* Ignorar comentarios de varias lineas */ } // No funciona de momento
 \n                          { yylineno++; }
 [ \t""]+                    ;
-"sqrt"                      { return SQRT; }
-"prnt"                      { yylval.str = strdup(yytext); return PRNT; }
-"NUM_TYPE"                  { return NUM_TYPE; }
-"STR_TYPE"                  { return STR_TYPE; }
-[A-Za-z][A-Za-z0-9_]*       { return IDENTIFIER; }
-[0-9]+\.[0-9]*              { yylval.num_double = atof(yytext); return NUMBER; }
-[0-9]+                      { yylval.num_double = atof(yytext); return NUMBER; }
-[-+*/\|\%\(\)\n]            { return *yytext; }
-[<]{2}                      { return STR_SHIFT_LEFT; }
-"**"                        { return STR_POW; }
-;                           { return ';'; }
-=                           { return '='; }
-\"(\\.|[^\"])*\"            {
+"sqrt"                      { return (SQRT); }
+"prnt"                      { return (PRNT); }
+"NUM_TYPE"                  { return (NUM_TYPE); }
+"STR_TYPE"                  { return (STR_TYPE); }
+\"([^\"\\]|\\.)*\"          {
                                 int i, j;
                                 yylval.str = malloc(yyleng); // Asignamos suficiente memoria para la cadena
                                 for (i = 1, j = 0; i < yyleng - 1; ++i) {
@@ -50,13 +43,21 @@ int yyerror(const char *message);
                                     }
                                 }
                                 yylval.str[j] = '\0'; // Terminamos la cadena con el carácter nulo
-                                return STRING_CONSTANT;
+                                return (STRING_CONSTANT);
                             }
-.                           { yylineno++; yytext_copy = strdup(yytext); yyerror("Unexpected token"); }
+[A-Za-z][A-Za-z0-9_]*       { return (IDENTIFIER); }
+[0-9]+\.[0-9]*              { yylval.num = atof(yytext); return (NUMBER); }
+[0-9]+                      { yylval.num = atof(yytext); return (NUMBER); }
+[-+*/\|\%\(\)\n]            { return *yytext; }
+[<]{2}                      { return (STR_SHIFT_LEFT); }
+"**"                        { return (STR_POW); }
+;                           { return ';'; }
+=                           { return '='; }
+.                           { printf("Unrecognized token: %s\n", yytext); yylineno++; yytext_copy = strdup(yytext); yyerror("Unexpected token"); }
 
 %%
 
 void showError() {
     printf("\n    <<LEXICAL_ERROR: \"%s\" AT LINE: %d>>", yytext_copy, yylineno);
-    //free(yytext_copy);
+    // free(yytext_copy);
 }
